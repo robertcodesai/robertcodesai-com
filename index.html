@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Robert Codes AI — How to Train Your Robot and Keep Your Sanity</title>
+  <meta name="description" content="Learn how to use AI tools like Copilot and ChatGPT at work. Daily tips, tutorials, and prompt libraries for office workers.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d0d0e;
+      --surface: #161618;
+      --surface-elevated: #1e1e21;
+      --border: #2a2a2e;
+      --text: #fafafa;
+      --text-secondary: #a1a1a6;
+      --text-muted: #636366;
+      --accent: #6366f1;
+      --accent-hover: #818cf8;
+      --accent-glow: rgba(99, 102, 241, 0.25);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Navigation */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      text-decoration: none;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--accent);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .nav-cta {
+      background: var(--accent);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .nav-cta:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+
+    /* Hero */
+    .hero {
+      padding: 100px 0 80px;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 8px 16px;
+      border-radius: 100px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+    }
+
+    .hero-badge span {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .hero h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(36px, 6vw, 56px);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 .highlight {
+      color: var(--accent);
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: var(--text-secondary);
+      max-width: 540px;
+      margin: 0 auto 36px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px var(--accent-glow);
+    }
+
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--text-muted);
+      transform: translateY(-2px);
+    }
+
+    /* Stats Bar */
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      padding: 32px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 80px;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* Section */
+    .section {
+      padding: 80px 0;
+    }
+
+    .section-header {
+      margin-bottom: 48px;
+    }
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+    }
+
+    .section h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .section > .container > p {
+      font-size: 16px;
+      color: var(--text-secondary);
+      max-width: 600px;
+    }
+
+    /* Blog Grid */
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .blog-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+
+    .blog-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+    }
+
+    .blog-image {
+      height: 160px;
+      background: linear-gradient(135deg, var(--surface-elevated) 0%, var(--surface) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+    }
+
+    .blog-content {
+      padding: 24px;
+    }
+
+    .blog-date {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .blog-card h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    .blog-card h3 a {
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .blog-card h3 a:hover {
+      color: var(--accent);
+    }
+
+    .blog-card p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+
+    .blog-card .read-more {
+      font-size: 13px;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .blog-card .read-more:hover {
+      text-decoration: underline;
+    }
+
+    /* Newsletter */
+    .newsletter {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 64px;
+      text-align: center;
+    }
+
+    .newsletter h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+
+    .newsletter p {
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+    }
+
+    .newsletter-form {
+      display: flex;
+      gap: 12px;
+      max-width: 440px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .newsletter-form input {
+      flex: 1;
+      min-width: 240px;
+      padding: 14px 18px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 15px;
+    }
+
+    .newsletter-form input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .newsletter-form input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    /* Footer */
+    footer {
+      padding: 48px 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .social-links a {
+      width: 44px;
+      height: 44px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 18px;
+      transition: all 0.2s;
+    }
+
+    .social-links a:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    footer p {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .stats {
+        flex-wrap: wrap;
+        gap: 32px;
+      }
+
+      .blog-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .newsletter {
+        padding: 40px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <a href="/" class="logo">
+        <span class="logo-icon">🤖</span>
+        Robert Codes AI
+      </a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#blog">Blog</a></li>
+        <li><a href="#youtube">Videos</a></li>
+        <li><a href="#newsletter">Newsletter</a></li>
+      </ul>
+      <a href="#newsletter" class="nav-cta">Subscribe</a>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-badge">
+        🎯 Daily AI tips for office workers
+      </div>
+      <h1>How to Train Your Robot<br><span class="highlight">and Keep Your Sanity</span></h1>
+      <p>Learn how to use Copilot, ChatGPT, and AI tools at work. Practical tutorials, prompt libraries, and real-world examples for everyday workers.</p>
+      <div class="hero-buttons">
+        <a href="#newsletter" class="btn btn-primary">Get Daily Tips →</a>
+        <a href="#youtube" class="btn btn-secondary">Watch Videos</a>
+      </div>
+    </section>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-value">2</div>
+        <div class="stat-label">Subscribers</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">6</div>
+        <div class="stat-label">Videos</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">260</div>
+        <div class="stat-label">Views</div>
+      </div>
+    </div>
+
+    <section id="about" class="section">
+      <div class="section-header">
+        <div class="section-label">About</div>
+        <h2>40 Years in IT. Building AI Automation.</h2>
+      </div>
+      <p>I'm Robert Truesdale — I've spent 40 years building and managing computer systems for a large worldwide insurance company. Now I'm teaching everyday workers how to actually use AI tools at work.</p>
+      <br>
+      <p>My boss trained 5,000 insurance workers on MS365 Copilot. I saw firsthand how confused people get with AI. So I started Robert Codes AI to make it simple.</p>
+      <br>
+      <p><strong>My mission:</strong> Help 9-5 office workers use AI to automate the boring stuff and focus on work that actually matters.</p>
+    </section>
+
+    <section id="blog" class="section">
+      <div class="section-header">
+        <div class="section-label">Blog</div>
+        <h2>Latest Articles</h2>
+        <p>Practical tips and tutorials for using AI at work.</p>
+      </div>
+      <div class="blog-grid">
+        <article class="blog-card">
+          <div class="blog-image">📝</div>
+          <div class="blog-content">
+            <div class="blog-date">March 5, 2026</div>
+            <h3><a href="#">The 200-Line Problem: Why Your AI Agent Needs Infrastructure</a></h3>
+            <p>Your AI logic is 200 lines. The infrastructure to keep it running? 4,000 lines. Here's what you're missing.</p>
+            <a href="#" class="read-more">Read more →</a>
+          </div>
+        </article>
+        <article class="blog-card">
+          <div class="blog-image">⚡</div>
+          <div class="blog-content">
+            <div class="blog-date">March 4, 2026</div>
+            <h3><a href="#">5 Copilot Prompts That Will Save You Hours</a></h3>
+            <p>Stop using Copilot like a search engine. Here are prompts that actually get results.</p>
+            <a href="#" class="read-more">Read more →</a>
+          </div>
+        </article>
+        <article class="blog-card">
+          <div class="blog-image">🔑</div>
+          <div class="blog-content">
+            <div class="blog-date">March 3, 2026</div>
+            <h3><a href="#">Prompt Engineering for Non-Developers</a></h3>
+            <p>You don't need to be a coder to write great prompts. Here's the framework I use.</p>
+            <a href="#" class="read-more">Read more →</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="youtube" class="section">
+      <div class="section-header">
+        <div class="section-label">Videos</div>
+        <h2>Latest from YouTube</h2>
+        <p>Practical AI tutorials and prompt breakdowns.</p>
+      </div>
+      <div class="blog-grid">
+        <article class="blog-card">
+          <div class="blog-image">🎬</div>
+          <div class="blog-content">
+            <div class="blog-date">258 views</div>
+            <h3><a href="https://youtube.com/shorts/ssrSKu12RIE" target="_blank">Top 10 Reasons ChatGPT Beats Copilot at Work</a></h3>
+            <p>Shorts • 58 seconds</p>
+            <a href="https://youtube.com/@robertcodesai" class="read-more" target="_blank">View Channel →</a>
+          </div>
+        </article>
+        <article class="blog-card">
+          <div class="blog-image">🎬</div>
+          <div class="blog-content">
+            <div class="blog-date">131 views</div>
+            <h3><a href="https://youtube.com/shorts/WyA6Wr3sb4Q" target="_blank">Excel Magic: 3 Ways Copilot Changes Everything</a></h3>
+            <p>Shorts • 45 seconds</p>
+            <a href="https://youtube.com/@robertcodesai" class="read-more" target="_blank">View Channel →</a>
+          </div>
+        </article>
+        <article class="blog-card">
+          <div class="blog-image">🎬</div>
+          <div class="blog-content">
+            <div class="blog-date">118 views</div>
+            <h3><a href="https://youtube.com/shorts/vNbd71LVjD0" target="_blank">Stop Using ChatGPT Like a Search Engine</a></h3>
+            <p>Shorts • 52 seconds</p>
+            <a href="https://youtube.com/@robertcodesai" class="read-more" target="_blank">View Channel →</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="newsletter" class="section">
+      <div class="newsletter">
+        <h2>Get Daily AI Tips in Your Inbox</h2>
+        <p>Join 11,000+ subscribers getting practical AI tips every day. No spam, just actionable stuff.</p>
+        <form class="newsletter-form" action="https://app.convertkit.com/forms/44118249/subscriptions" method="post">
+          <input type="email" name="email_address" placeholder="your@email.com" required>
+          <button type="submit" class="btn btn-primary">Subscribe</button>
+        </form>
+      </div>
+    </section>
+
+    <footer>
+      <div class="social-links">
+        <a href="https://youtube.com/@robertcodesai" target="_blank" title="YouTube">📺</a>
+        <a href="https://x.com/robertcodesai" target="_blank" title="X/Twitter">𝕏</a>
+        <a href="https://linkedin.com/in/robertruesdale" target="_blank" title="LinkedIn">💼</a>
+        <a href="https://roberttruesdale.com" target="_blank" title="Website">🌐</a>
+      </div>
+      <p>© 2026 Robert Codes AI. Built with coffee ☕ and solar power ☀️</p>
+    </footer>
+  </div>
+</body>
+</html>
